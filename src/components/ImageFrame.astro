@@ -23,10 +23,12 @@ const {
   class: className,
 } = Astro.props as Props;
 
-const inferredSizes = sizes ?? (className?.includes('card__media--hero')
+  const inferredSizes = sizes ?? (className?.includes('card__media--hero')
   ? '(max-width: 720px) calc(100vw - 2rem), (max-width: 1100px) 44vw, 540px'
   : className?.includes('card__media--portrait')
     ? '(max-width: 720px) calc(100vw - 2rem), (max-width: 960px) 44vw, 360px'
+    : className?.includes('card__media--treatment')
+      ? '(max-width: 720px) calc(100vw - 2rem), (max-width: 960px) calc(50vw - 2rem), (max-width: 1200px) calc(33vw - 2rem), 360px'
     : className?.includes('card__media--cta')
       ? '(max-width: 720px) calc(100vw - 2rem), (max-width: 1100px) 42vw, 520px'
       : className?.includes('card__media--landscape')
@@ -35,6 +37,7 @@ const inferredSizes = sizes ?? (className?.includes('card__media--hero')
 
 const hasJpgSource = /\.jpe?g$/i.test(src);
 const webpBase = hasJpgSource ? src.replace(/\.jpe?g$/i, '') : '';
+const webp480 = hasJpgSource ? `${webpBase}-480.webp` : '';
 const webp720 = hasJpgSource ? `${webpBase}-720.webp` : '';
 const webp1080 = hasJpgSource ? `${webpBase}-1080.webp` : '';
 ---
@@ -42,7 +45,7 @@ const webp1080 = hasJpgSource ? `${webpBase}-1080.webp` : '';
 <div class:list={['card__media', 'media-frame', className]} data-image-frame>
   {hasJpgSource ? (
     <picture>
-      <source type="image/webp" srcset={`${webp720} 720w, ${webp1080} 1080w`} sizes={inferredSizes} />
+      <source type="image/webp" srcset={`${webp480} 480w, ${webp720} 720w, ${webp1080} 1080w`} sizes={inferredSizes} />
       <img
         src={src}
         alt={alt}

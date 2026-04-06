@@ -55,7 +55,7 @@ import { creatorBridge, footerDisclosure, legalLinks } from '../data/compliance'
   </div>
 </footer>
 
-<style>
+<style is:inline>
   .footer {
     padding-top: 0;
     padding-bottom: 1.5rem;
@@ -79,7 +79,7 @@ import { creatorBridge, footerDisclosure, legalLinks } from '../data/compliance'
     justify-content: flex-start;
   }
 
-  .footer__brand-mark :global(.brand-mark__wordmark) {
+  .footer__brand-mark .brand-mark__wordmark {
     font-size: clamp(1rem, 0.94rem + 0.25vw, 1.12rem);
   }
 
@@ -197,7 +197,7 @@ import { creatorBridge, footerDisclosure, legalLinks } from '../data/compliance'
       padding-left: 0;
     }
 
-    .footer__brand-mark :global(.brand-mark__symbol) {
+    .footer__brand-mark .brand-mark__symbol {
       width: 2.55rem;
       height: 2.55rem;
     }

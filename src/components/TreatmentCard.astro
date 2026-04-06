@@ -16,7 +16,15 @@ const { name, category, description, details, image, alt, width, height } = Astr
 ---
 
 <article class="card treatment-card">
-  <ImageFrame src={image} alt={alt} width={width} height={height} loading="lazy" fallbackLabel={name} />
+  <ImageFrame
+    src={image}
+    alt={alt}
+    width={width}
+    height={height}
+    loading="lazy"
+    fallbackLabel={name}
+    class="card__media--treatment"
+  />
   <div class="card__body treatment-card__body">
     <p class="treatment-card__category">{category}</p>
     <h3>{name}</h3>

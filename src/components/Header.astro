@@ -1,0 +1,425 @@
+---
+import BrandMark from './BrandMark.astro';
+import { navLinks, site } from '../data/site';
+
+const { currentPath = '/' } = Astro.props;
+
+const isActive = (href: string) => {
+  if (href === '/treatments') {
+    return currentPath.startsWith('/treatments');
+  }
+
+  return false;
+};
+---
+
+<header class="site-header">
+  <div class="site-shell">
+    <div class="surface site-header__inner">
+      <BrandMark class="site-header__brand" variant="header" />
+
+      <nav class="site-header__nav" aria-label="Primary">
+        {navLinks.map((link) => (
+          <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined} class:list={{ 'is-active': isActive(link.href) }}>
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <div class="site-header__actions">
+        <a class="button button--primary site-header__book" href={site.bookingHref}>
+          Book Consultation
+        </a>
+
+        <details class="site-header__menu">
+          <summary class="button button--secondary site-header__menu-button" aria-label="Open mobile navigation">
+            Menu
+          </summary>
+          <div
+            class="site-header__menu-panel"
+            role="dialog"
+            aria-label="Mobile navigation"
+          >
+            <div class="site-header__menu-backdrop" onclick="this.closest('details')?.removeAttribute('open')"></div>
+            <div class="site-shell site-header__menu-shell">
+              <div class="surface site-header__menu-surface">
+                <div class="site-header__menu-top">
+                  <BrandMark class="site-header__menu-brand" variant="header" />
+
+                  <button
+                    type="button"
+                    class="site-header__menu-close"
+                    aria-label="Close menu"
+                    onclick="this.closest('details')?.removeAttribute('open')"
+                  >
+                    <span aria-hidden="true">×</span>
+                    Close
+                  </button>
+                </div>
+
+                <p class="site-header__menu-kicker">Missoula and Kalispell, Montana</p>
+
+                <nav class="site-header__menu-nav" aria-label="Primary mobile">
+                  {navLinks.map((link, index) => (
+                    <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined} class:list={{ 'is-active': isActive(link.href) }}>
+                      <span class="site-header__menu-nav-index" aria-hidden="true">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <span class="site-header__menu-nav-label">{link.label}</span>
+                      <span class="site-header__menu-nav-arrow" aria-hidden="true">↗</span>
+                    </a>
+                  ))}
+                </nav>
+
+                <div class="site-header__menu-footer">
+                  <div class="site-header__menu-meta">
+                    <p>Book a calm, guided consultation.</p>
+                    <a href={`mailto:${site.email}`}>{site.email}</a>
+                    <a href={`tel:${site.phone}`}>{site.phone}</a>
+                  </div>
+
+                  <div class="site-header__menu-actions">
+                    <a class="button button--primary site-header__menu-cta" href={site.bookingHref}>
+                      Book Consultation
+                    </a>
+                    <a class="button button--secondary site-header__menu-secondary" href="/treatments">
+                      View Treatments
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    padding-top: 0.95rem;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: linear-gradient(180deg, rgba(247, 251, 250, 0.82), rgba(247, 251, 250, 0));
+  }
+
+  .site-header__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(18px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .site-header__brand {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .site-header__nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.1rem;
+    justify-self: center;
+    color: var(--muted);
+    font-size: 0.94rem;
+    font-weight: 600;
+  }
+
+  .site-header__nav a {
+    position: relative;
+    padding: 0.35rem 0.1rem;
+    border-radius: 999px;
+    transition: color 160ms ease;
+  }
+
+  .site-header__nav a:hover,
+  .site-header__nav a:focus-visible {
+    color: var(--text);
+  }
+
+  .site-header__nav a.is-active {
+    color: var(--text);
+  }
+
+  .site-header__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .site-header__menu {
+    display: none;
+    position: relative;
+  }
+
+  .site-header__menu summary {
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .site-header__menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .site-header__menu-panel {
+    position: fixed;
+    inset: 0;
+    padding: 0;
+    background: #f7fbfa;
+    backdrop-filter: none;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-0.5rem);
+    transition:
+      opacity 220ms ease,
+      transform 220ms ease;
+    z-index: 40;
+  }
+
+  .site-header__menu-backdrop {
+    position: absolute;
+    inset: 0;
+    background: #f7fbfa;
+  }
+
+  .site-header__menu-shell {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: stretch;
+    height: 100%;
+    width: 100%;
+  }
+
+  .site-header__menu-surface {
+    display: grid;
+    grid-template-rows: auto auto auto auto;
+    min-height: 100dvh;
+    padding:
+      calc(clamp(1rem, 3.5vw, 1.5rem) + env(safe-area-inset-top))
+      clamp(1rem, 3.5vw, 1.5rem)
+      calc(clamp(1rem, 3.5vw, 1.5rem) + env(safe-area-inset-bottom));
+    border-radius: 0;
+    box-shadow: none;
+    background: #f7fbfa;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .site-header__menu-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: min(100%, 48rem);
+    margin-inline: auto;
+    padding-bottom: 0.95rem;
+    border-bottom: 1px solid rgba(20, 110, 110, 0.08);
+  }
+
+  .site-header__menu-brand {
+    gap: 0.78rem;
+  }
+
+  .site-header__menu-brand .brand-mark__symbol {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 18px;
+  }
+
+  .site-header__menu-brand .brand-mark__wordmark {
+    font-size: 1.16rem;
+  }
+
+  .site-header__menu-close {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2.9rem;
+    padding: 0.72rem 1rem;
+    border: 1px solid rgba(20, 110, 110, 0.12);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.74);
+    color: var(--text);
+    font-weight: 650;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .site-header__menu-kicker {
+    width: min(100%, 48rem);
+    margin: 1rem auto 0;
+    color: var(--accent-strong);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .site-header__menu-nav {
+    display: grid;
+    gap: 0.7rem;
+    width: min(100%, 48rem);
+    margin: 1.1rem auto 0;
+  }
+
+  .site-header__menu-nav a {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.95rem;
+    min-height: 4.7rem;
+    padding: 1rem 1.05rem 1rem 1.1rem;
+    border-radius: 24px;
+    border: 1px solid rgba(20, 110, 110, 0.09);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(244, 251, 250, 0.8));
+    color: var(--text);
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      background-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .site-header__menu-nav a:hover,
+  .site-header__menu-nav a:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(20, 110, 110, 0.16);
+    background: rgba(236, 248, 247, 0.94);
+    box-shadow: var(--shadow);
+    color: var(--text);
+  }
+
+  .site-header__menu-nav-index {
+    color: var(--accent-strong);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+
+  .site-header__menu-nav-label {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 4vw, 1.45rem);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .site-header__menu-nav-arrow {
+    color: var(--accent-strong);
+    font-size: 1rem;
+  }
+
+  .site-header__menu-nav a.is-active {
+    border-color: rgba(20, 110, 110, 0.18);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(232, 247, 245, 0.78));
+  }
+
+  .site-header__menu-footer {
+    display: grid;
+    gap: 0.9rem;
+    width: min(100%, 48rem);
+    margin: 0.85rem auto 0;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(20, 110, 110, 0.08);
+  }
+
+  .site-header__menu-meta {
+    display: grid;
+    gap: 0.3rem;
+    color: var(--muted);
+  }
+
+  .site-header__menu-meta p {
+    margin: 0;
+  }
+
+  .site-header__menu-meta a {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .site-header__menu-actions {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 0.75rem;
+  }
+
+  .site-header__menu-cta,
+  .site-header__menu-secondary {
+    width: 100%;
+  }
+
+  .site-header__menu[open] .site-header__menu-panel {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  body:has(.site-header__menu[open]) {
+    overflow: hidden;
+  }
+
+  @media (max-width: 860px) {
+    .site-header__inner {
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      border-radius: var(--radius-lg);
+    }
+
+    .site-header__nav {
+      display: none;
+    }
+
+    .site-header__book {
+      padding-inline: 1rem;
+    }
+
+    .site-header__menu {
+      display: inline-flex;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .site-header__book {
+      padding-inline: 1rem;
+    }
+
+    .site-header__menu-panel {
+      padding: 0;
+    }
+
+    .site-header__menu-surface {
+      min-height: 100dvh;
+      align-content: start;
+      padding:
+        calc(0.95rem + env(safe-area-inset-top))
+        1rem
+        calc(1rem + env(safe-area-inset-bottom));
+    }
+
+    .site-header__menu-top,
+    .site-header__menu-kicker,
+    .site-header__menu-nav,
+    .site-header__menu-footer {
+      width: 100%;
+    }
+
+    .site-header__menu-nav a {
+      min-height: 4.35rem;
+      padding-inline: 0.95rem;
+    }
+
+    .site-header__menu-actions {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

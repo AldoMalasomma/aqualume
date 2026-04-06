@@ -1,0 +1,150 @@
+---
+import ImageFrame from './ImageFrame.astro';
+
+interface Action {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description: string;
+  primaryAction?: Action;
+  secondaryAction?: Action;
+  image?: {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+  };
+}
+
+const { eyebrow, title, description, primaryAction, secondaryAction, image } = Astro.props as Props;
+---
+
+<section class="cta-band">
+  <div class="cta-band__frame">
+    <div class="site-shell">
+      <div class="surface cta-band__inner">
+        <div class="cta-band__copy">
+          {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+          <h2>{title}</h2>
+          <p>{description}</p>
+
+          <div class="cta-band__actions">
+            {primaryAction && (
+              <a class="button button--primary" href={primaryAction.href}>
+                {primaryAction.label}
+              </a>
+            )}
+            {secondaryAction && (
+              <a class="button button--secondary" href={secondaryAction.href}>
+                {secondaryAction.label}
+              </a>
+            )}
+          </div>
+        </div>
+
+        {image && (
+          <figure class="cta-band__media">
+            <ImageFrame
+              src={image.src}
+              alt={image.alt}
+              width={image.width}
+              height={image.height}
+              loading="lazy"
+              fallbackLabel="Consultation lounge"
+              class="card__media--cta cta-band__media-frame"
+            />
+          </figure>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    position: relative;
+    padding: 0 0 clamp(3rem, 6vw, 5rem);
+  }
+
+  .cta-band__frame {
+    position: relative;
+  }
+
+  .cta-band__frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(105, 207, 200, 0.12), transparent 28%),
+      radial-gradient(circle at 85% 0%, rgba(201, 240, 233, 0.42), transparent 24%),
+      linear-gradient(180deg, rgba(245, 252, 251, 0.76), rgba(230, 246, 244, 0.3));
+    border-block: 1px solid rgba(20, 110, 110, 0.08);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .cta-band__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.95fr);
+    align-items: stretch;
+    gap: 1.5rem;
+    padding: clamp(1.7rem, 3.5vw, 2.6rem);
+    border-radius: calc(var(--radius-xl) + 4px);
+  }
+
+  .cta-band__copy {
+    max-width: 42rem;
+  }
+
+  .cta-band__copy h2 {
+    margin: 0;
+    font-size: clamp(2.1rem, 3vw, 3rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .cta-band__copy p {
+    margin: 0.95rem 0 0;
+    color: var(--muted);
+    line-height: 1.72;
+  }
+
+  .cta-band__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.1rem;
+  }
+
+  .cta-band__media {
+    margin: 0;
+    border-radius: calc(var(--radius-xl) - 8px);
+    overflow: hidden;
+    background:
+      radial-gradient(circle at top left, rgba(105, 207, 200, 0.12), transparent 28%),
+      linear-gradient(180deg, #d8f3ef, #eefaf8);
+    align-self: stretch;
+  }
+
+  .cta-band__media-frame {
+    --media-position: center 26%;
+  }
+
+  @media (max-width: 760px) {
+    .cta-band__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-band__media {
+      aspect-ratio: 16 / 11;
+    }
+
+    .cta-band__media-frame {
+      --media-ratio: 16 / 11;
+    }
+  }
+</style>

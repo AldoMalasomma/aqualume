@@ -1,0 +1,49 @@
+---
+interface Action {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  action?: Action;
+  compact?: boolean;
+}
+
+const { eyebrow, title, description, action, compact = false } = Astro.props as Props;
+---
+
+<header class="section__header">
+  <div class="stack">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h2 class:list={['section__title', compact && 'section__title--compact']}>{title}</h2>
+  </div>
+  {description && <p class="section__lead">{description}</p>}
+  {action && (
+    <a class="button button--secondary section__action" href={action.href}>
+      {action.label}
+    </a>
+  )}
+</header>
+
+<style>
+  @media (min-width: 960px) {
+    .section__header {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+    }
+
+    .section__lead {
+      max-width: 46ch;
+    }
+
+    .section__action {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-self: center;
+      justify-self: end;
+    }
+  }
+</style>

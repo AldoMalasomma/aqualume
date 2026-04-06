@@ -1,0 +1,218 @@
+---
+import BrandMark from './BrandMark.astro';
+import { navLinks, site } from '../data/site';
+import { creatorBridge, footerDisclosure, legalLinks } from '../data/compliance';
+---
+
+<footer class="section footer">
+  <div class="site-shell">
+    <div class="surface footer__panel">
+      <div class="footer__brand">
+        <BrandMark variant="header" class="footer__brand-mark" />
+        <p class="footer__eyebrow">{footerDisclosure.label}</p>
+        <p class="footer__statement">Calm, premium aesthetics and wellness care across Montana.</p>
+        <p class="footer__disclosure">{footerDisclosure.text}</p>
+        <div class="footer__credit">
+          <span>{creatorBridge.label}</span>
+          <a href={creatorBridge.href}>{creatorBridge.name}</a>
+          <span>/</span>
+          <a href={creatorBridge.website} target="_blank" rel="noreferrer">
+            {creatorBridge.business}
+          </a>
+          <span>•</span>
+          <a href={creatorBridge.href}>{creatorBridge.email}</a>
+        </div>
+      </div>
+
+      <div class="footer__group">
+        <h2>Contact</h2>
+        <p>{site.address}</p>
+        <p>{site.phone}</p>
+        <p>{site.email}</p>
+      </div>
+
+      <div class="footer__group footer__group--nav">
+        <h2>Navigate</h2>
+        <nav class="footer__stack" aria-label="Footer">
+          {navLinks.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))}
+        </nav>
+        <a class="button button--primary footer__cta" href={site.bookingHref}>
+          Book Consultation
+        </a>
+      </div>
+    </div>
+
+    <div class="footer__meta">
+      <nav aria-label="Footer legal links">
+        {legalLinks.map((link) => (
+          <a href={link.href}>{link.label}</a>
+        ))}
+      </nav>
+      <p>© 2026 Aqualume. Portfolio concept only.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-top: 0;
+    padding-bottom: 1.5rem;
+  }
+
+  .footer__panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr) minmax(0, 1fr);
+    gap: clamp(1.2rem, 2.4vw, 2rem);
+    padding: clamp(1.15rem, 2.5vw, 1.8rem);
+    border-radius: calc(var(--radius-xl) - 2px);
+  }
+
+  .footer__brand {
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+  }
+
+  .footer__brand-mark {
+    justify-content: flex-start;
+  }
+
+  .footer__brand-mark :global(.brand-mark__wordmark) {
+    font-size: clamp(1rem, 0.94rem + 0.25vw, 1.12rem);
+  }
+
+  .footer__group h2 {
+    margin: 0 0 0.7rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+
+  .footer__group p,
+  .footer__group nav a {
+    display: block;
+    margin: 0 0 0.34rem;
+    color: var(--muted);
+  }
+
+  .footer__stack,
+  .footer__meta nav {
+    display: grid;
+    gap: 0.34rem;
+  }
+
+  .footer__group nav a:hover,
+  .footer__group nav a:focus-visible {
+    color: var(--text);
+  }
+
+  .footer__cta {
+    width: fit-content;
+    margin-top: 0.65rem;
+  }
+
+  .footer__statement {
+    margin: 0;
+    max-width: 22ch;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .footer__eyebrow {
+    margin: 0;
+    color: var(--accent-strong);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+
+  .footer__disclosure {
+    margin: 0.1rem 0 0;
+    max-width: 28ch;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+
+  .footer__credit {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.45rem;
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+
+  .footer__credit a {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .footer__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin: 0.85rem 0 0;
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(20, 110, 110, 0.08);
+    color: var(--muted);
+    font-size: 0.84rem;
+  }
+
+  .footer__meta p {
+    margin: 0;
+  }
+
+  .footer__meta nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .footer__meta nav a {
+    color: var(--muted);
+  }
+
+  .footer__meta nav a:hover,
+  .footer__meta nav a:focus-visible {
+    color: var(--text);
+  }
+
+  @media (max-width: 820px) {
+    .footer__panel {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .footer__group--nav {
+      display: flex;
+      flex-direction: column;
+      border-left: 0;
+      padding-left: 0;
+    }
+
+    .footer__brand-mark :global(.brand-mark__symbol) {
+      width: 2.55rem;
+      height: 2.55rem;
+    }
+
+    .footer__meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.55rem;
+    }
+  }
+
+  @media (min-width: 821px) {
+    .footer__group--nav {
+      padding-left: clamp(1rem, 2vw, 1.35rem);
+      border-left: 1px solid rgba(20, 110, 110, 0.08);
+    }
+  }
+</style>

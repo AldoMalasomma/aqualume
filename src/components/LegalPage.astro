@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+type LegalSection = {
+  title: string;
+  body: string[];
+};
+
+interface Props {
+  pageTitle: string;
+  description: string;
+  eyebrow: string;
+  title: string;
+  intro: string;
+  sections: LegalSection[];
+  note?: string;
+}
+
+const { pageTitle, description, eyebrow, title, intro, sections, note } = Astro.props as Props;
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <section class="section section--panel legal-page">
+    <div class="site-shell">
+      <article class="surface legal-page__panel">
+        <p class="eyebrow">{eyebrow}</p>
+        <h1>{title}</h1>
+        <p class="legal-page__intro">{intro}</p>
+
+        <div class="legal-page__sections">
+          {sections.map((section) => (
+            <article class="card legal-page__card">
+              <div class="card__body">
+                <h2>{section.title}</h2>
+                {section.body.map((paragraph) => (
+                  <p>{paragraph}</p>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {note && (
+          <div class="legal-page__note">
+            <p>{note}</p>
+          </div>
+        )}
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    padding-top: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .legal-page__panel {
+    display: grid;
+    gap: 1.15rem;
+    padding: clamp(1.2rem, 3vw, 1.8rem);
+    border-radius: calc(var(--radius-xl) + 6px);
+  }
+
+  .legal-page__panel h1 {
+    margin: 0;
+    max-width: 12ch;
+    font-size: clamp(2.8rem, 5vw, 4.6rem);
+    line-height: 0.96;
+    letter-spacing: -0.07em;
+  }
+
+  .legal-page__intro {
+    margin: 0;
+    max-width: 52rem;
+    color: var(--muted);
+    font-size: clamp(1rem, 1.7vw, 1.1rem);
+    line-height: 1.8;
+  }
+
+  .legal-page__sections {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 0.2rem;
+  }
+
+  .legal-page__card .card__body {
+    gap: 0.7rem;
+    padding: 1.2rem 1.2rem 1.25rem;
+  }
+
+  .legal-page__card h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+  }
+
+  .legal-page__card p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.68;
+  }
+
+  .legal-page__card p + p {
+    margin-top: 0.25rem;
+  }
+
+  .legal-page__note {
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(20, 110, 110, 0.08);
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+
+  .legal-page__note p {
+    margin: 0;
+  }
+
+  @media (max-width: 760px) {
+    .legal-page__sections {
+      grid-template-columns: 1fr;
+    }
+
+    .legal-page__panel h1 {
+      max-width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,123 @@
+---
+import ImageFrame from './ImageFrame.astro';
+
+interface Props {
+  name: string;
+  address: string;
+  hours: string;
+  services: string;
+  description: string;
+  linkLabel: string;
+  linkHref: string;
+  image: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+const { name, address, hours, services, description, linkLabel, linkHref, image, alt, width, height } = Astro.props as Props;
+---
+
+<article class="card location-card">
+  <ImageFrame
+    src={image}
+    alt={alt}
+    width={width}
+    height={height}
+    loading="lazy"
+    fallbackLabel={name}
+    class="card__media--landscape location-card__media"
+  />
+  <div class="card__body location-card__body">
+    <div class="location-card__top">
+      <p class="location-card__eyebrow">Location</p>
+      <h3>{name}</h3>
+      <p class="location-card__description">{description}</p>
+    </div>
+    <dl>
+      <div>
+        <dt>Address</dt>
+        <dd>{address}</dd>
+      </div>
+      <div>
+        <dt>Hours</dt>
+        <dd>{hours}</dd>
+      </div>
+      <div>
+        <dt>Services</dt>
+        <dd>{services}</dd>
+      </div>
+    </dl>
+    <a class="button button--secondary location-card__cta" href={linkHref}>
+      {linkLabel}
+    </a>
+  </div>
+</article>
+
+<style>
+  .location-card {
+    overflow: hidden;
+    display: grid;
+    min-height: 100%;
+  }
+
+  .location-card__body {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .location-card__media {
+    --media-position: center center;
+  }
+
+  .location-card__top {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .location-card__eyebrow {
+    margin: 0;
+    color: var(--accent-strong);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .location-card h3 {
+    margin: 0;
+    font-size: 1.42rem;
+    letter-spacing: -0.03em;
+  }
+
+  .location-card__description {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  dl {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+  }
+
+  dt {
+    margin-bottom: 0.2rem;
+    color: var(--accent-strong);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .location-card__cta {
+    justify-self: start;
+  }
+</style>

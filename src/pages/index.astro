@@ -1,0 +1,346 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CtaBand from '../components/CtaBand.astro';
+import TreatmentCard from '../components/TreatmentCard.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import TeamPreviewCard from '../components/TeamPreviewCard.astro';
+import LocationCard from '../components/LocationCard.astro';
+import GoalCard from '../components/GoalCard.astro';
+import ImageFrame from '../components/ImageFrame.astro';
+import { images } from '../data/images';
+import {
+  featuredTreatments,
+  heroTrustItems,
+  locations,
+  site,
+  team,
+  testimonials,
+  treatmentGoals,
+  whyPatientsChoose,
+} from '../data/site';
+---
+
+<BaseLayout
+  title="Aqualume | 2026 homepage proposal"
+  description="A premium visual proposal for a modern medical aesthetics and wellness clinic."
+>
+  <Hero
+    eyebrow="Premium clinic proposal"
+    title="Medical aesthetics and wellness, presented with calm precision."
+    description="Aqualume is reimagined as a polished Montana destination for patients who want natural-looking results, clear guidance, and a truly premium experience."
+    primaryAction={{ href: site.bookingHref, label: 'Book Consultation' }}
+    secondaryAction={{ href: '/treatments', label: 'View Treatments' }}
+    trustItems={heroTrustItems}
+    image={{
+      src: images.heroClinicInterior,
+      alt: 'A luminous clinic interior with private seating, soft daylight, and aqua accents',
+      width: 1000,
+      height: 1200,
+    }}
+    mediaCaption="Private consultations across Missoula and Kalispell"
+  />
+
+  <section class="section section--panel consultation-section">
+    <div class="site-shell">
+      <div class="surface consultation-section__inner">
+        <div class="consultation-section__copy">
+          <p class="eyebrow">Private consultations</p>
+          <h2>Thoughtful conversations before treatment decisions.</h2>
+          <p>
+            Aqualume keeps the first appointment calm and private, so goals, timing, and the right level of
+            change can be discussed without pressure.
+          </p>
+
+          <ul class="chip-list" aria-label="Consultation qualities">
+            <li class="chip">Private setting</li>
+            <li class="chip">Clear next steps</li>
+            <li class="chip">Measured plan</li>
+          </ul>
+
+          <div class="consultation-section__actions">
+            <a class="button button--primary" href={site.bookingHref}>
+              Book Consultation
+            </a>
+            <a class="button button--secondary" href="/treatments">
+              View Treatments
+            </a>
+          </div>
+        </div>
+
+        <figure class="card consultation-section__media">
+          <ImageFrame
+            src={images.consultationSetting}
+            alt="A private consultation setting with soft daylight and refined aqua accents"
+            width={960}
+            height={660}
+            loading="lazy"
+            fallbackLabel="Private consultation"
+            class="card__media--landscape consultation-section__visual"
+          />
+          <figcaption>Private consultation flow designed to feel calm, clear, and personal.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="wellness" class="section section--tight">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="Treatment finder"
+        title="Start with the result you want, then let the clinic guide the rest."
+        description="These goal-based entry points keep the experience light and reassuring on mobile, while making the treatment path feel tailored from the first screen."
+      />
+
+      <div class="goal-grid">
+        {treatmentGoals.map((goal) => (
+          <GoalCard {...goal} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="treatments" class="section section--panel">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="Featured treatments"
+        title="A concise, premium treatment lineup with room to breathe."
+        description="The service story is curated instead of crowded so the page feels like a high-end presentation, not a directory."
+        action={{ href: '/treatments', label: 'View Treatments' }}
+      />
+
+      <div class="grid grid--three">
+        {featuredTreatments.map((treatment) => (
+          <TreatmentCard {...treatment} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--image section--alt" style={`--section-image: url('${images.sectionSoftSpaDetail}')`}>
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="Why patients choose Aqualume"
+        title="High-trust care, designed to feel personal and measured."
+        description="This section keeps the messaging grounded in quality rather than marketing language, which is a better fit for a premium clinic proposal."
+      />
+
+      <div class="grid grid--four">
+        {whyPatientsChoose.map((reason) => (
+          <article class="card reason-card">
+            <div class="card__body">
+              <p class="reason-card__label">Clinic standard</p>
+              <h3>{reason.title}</h3>
+              <p>{reason.description}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section section--panel">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="Meet the team"
+        title="Experienced providers, shown with clarity and warmth."
+        description="A polished team preview gives the brand credibility without feeling stiff or over-produced."
+        action={{ href: `mailto:${site.email}?subject=Meet%20the%20team`, label: 'Meet the team' }}
+      />
+
+      <div class="grid grid--three">
+        {team.map((member) => (
+          <TeamPreviewCard {...member} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="results" class="section section--alt">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="Patient stories"
+        title="Subtle results, careful experiences, real trust."
+        description="A few concise testimonials keep the focus on credibility and patient comfort."
+      />
+
+      <div class="results-grid">
+        {testimonials.map((testimonial) => (
+          <TestimonialCard {...testimonial} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="locations" class="section section--panel">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="Locations"
+        title="Two Montana destinations with the same calm, elevated standard."
+        description="Each location card is designed like a real clinic destination: clear, distinctive, and easy to scan on mobile."
+      />
+
+      <div class="grid grid--two">
+        {locations.map((location) => (
+          <LocationCard {...location} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    eyebrow="Next step"
+    title="Book a consultation and move from idea to a clear plan."
+    description="This proposal is built to feel reassuring, premium, and ready for real patients while still remaining simple to evolve later."
+    primaryAction={{ href: site.bookingHref, label: 'Book Consultation' }}
+    secondaryAction={{ href: '/treatments', label: 'View Treatments' }}
+    image={{
+      src: images.ctaConsultationLounge,
+      alt: 'A calm consultation lounge with soft aqua accents and refined seating',
+      width: 960,
+      height: 600,
+    }}
+  />
+</BaseLayout>
+
+<style>
+  .goal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .consultation-section__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+    align-items: center;
+    gap: 1.5rem;
+    padding: clamp(1.25rem, 3.5vw, 1.75rem);
+    border-radius: calc(var(--radius-xl) + 8px);
+  }
+
+  .consultation-section__copy {
+    display: grid;
+    align-content: center;
+    gap: 1rem;
+    padding: clamp(0.4rem, 2vw, 1rem) clamp(0.25rem, 2vw, 1rem) clamp(0.35rem, 2vw, 0.75rem) 0;
+  }
+
+  .consultation-section__copy h2 {
+    margin: 0;
+    max-width: 13ch;
+    font-size: clamp(2.1rem, 3vw, 3rem);
+    line-height: 1.01;
+    letter-spacing: -0.04em;
+  }
+
+  .consultation-section__copy p {
+    margin: 0;
+    max-width: 42rem;
+    color: var(--muted);
+    line-height: 1.72;
+  }
+
+  .consultation-section__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.1rem;
+  }
+
+  .consultation-section__media {
+    margin: 0;
+    min-height: 100%;
+    border-radius: calc(var(--radius-xl) - 4px);
+    overflow: hidden;
+    background:
+      radial-gradient(circle at top left, rgba(105, 207, 200, 0.16), transparent 32%),
+      linear-gradient(180deg, #d8f3ef, #eefaf8);
+    position: relative;
+  }
+
+  .consultation-section__visual {
+    --media-position: center 28%;
+  }
+
+  .consultation-section__media figcaption {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    padding: 0.8rem 0.95rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(20, 110, 110, 0.1);
+    box-shadow: var(--shadow-sm);
+    color: var(--text);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    backdrop-filter: blur(10px);
+  }
+
+  .reason-card {
+    padding: 0.25rem;
+  }
+
+  .reason-card .card__body {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1.4rem;
+  }
+
+  .reason-card__label {
+    margin: 0;
+    color: var(--accent-strong);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .reason-card h3 {
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.28rem;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+
+  .reason-card p:last-child {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  @media (max-width: 960px) {
+    .goal-grid,
+    .results-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .consultation-section__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .goal-grid,
+    .results-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .consultation-section__copy {
+      padding: 0;
+    }
+
+    .consultation-section__visual {
+      aspect-ratio: 16 / 11;
+    }
+  }
+</style>

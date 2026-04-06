@@ -1,0 +1,186 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CtaBand from '../components/CtaBand.astro';
+import TreatmentCard from '../components/TreatmentCard.astro';
+import GoalCard from '../components/GoalCard.astro';
+import { images } from '../data/images';
+import { site, treatmentCareNotes, treatmentCategoryNav, treatmentPathways, treatmentSections } from '../data/site';
+---
+
+<BaseLayout
+  title="Treatments | Aqualume"
+  description="A polished treatments overview page for a modern medical aesthetics and wellness clinic."
+>
+  <Hero
+    compact
+    eyebrow="Aesthetic & wellness solutions"
+    title="Treatments"
+    description="Every treatment at Aqualume is tailored to the individual, guided by clear goals, and presented with the same calm, premium standard."
+    primaryAction={{ href: site.bookingHref, label: 'Book Consultation' }}
+    image={{
+      src: images.consultationSetting,
+      alt: 'A private consultation setting with soft daylight and refined aqua accents',
+      width: 960,
+      height: 660,
+    }}
+    mediaCaption="Guided pathways for aesthetics, wellness, and long-term care"
+  />
+
+  <section class="section section--tight section--panel">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="Browse by category"
+        title="Choose a direction before you choose a treatment."
+        description="The page starts with a calm category grid so patients can orient themselves quickly without scanning a long service dump."
+      />
+
+      <div class="category-grid">
+        {treatmentCategoryNav.map((item) => (
+          <GoalCard {...item} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {treatmentSections.map((section, index) => (
+    <section
+      id={section.id}
+      class:list={['section', index % 2 === 0 ? 'section--alt' : 'section--panel']}
+    >
+      <div class="site-shell">
+        <SectionHeading eyebrow={section.eyebrow} title={section.title} description={section.description} />
+
+        <div class="grid grid--three">
+          {section.treatments.map((treatment) => (
+            <TreatmentCard {...treatment} />
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section section--panel">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="Not sure where to start?"
+        title="Use the feeling you want to guide the first conversation."
+        description="These pathway cards keep the page practical and reassuring, especially on mobile where users want a simple next step."
+      />
+
+      <div class="grid grid--three">
+        {treatmentPathways.map((pathway) => (
+          <GoalCard {...pathway} />
+        ))}
+      </div>
+
+      <div class="treatments-cta">
+        <a class="button button--primary" href={site.bookingHref}>
+          Book Consultation
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="Care philosophy"
+        title="Treatment planning should feel personal, measured, and medically grounded."
+        description="A premium clinic page does not need to explain everything. It only needs to show that the process is thoughtful, conservative, and centered on the person."
+      />
+
+      <div class="care-grid">
+        {treatmentCareNotes.map((note) => (
+          <article class="card care-card">
+            <div class="card__body">
+              <p class="care-card__label">Frequently asked</p>
+              <h3>{note.question}</h3>
+              <p>{note.answer}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    eyebrow="Next step"
+    title="Ready to talk through the right treatment path?"
+    description="Book a consultation to review goals, understand the options, and plan the right next step with the team."
+    primaryAction={{ href: site.bookingHref, label: 'Book Consultation' }}
+    image={{
+      src: images.ctaConsultationLounge,
+      alt: 'A soft, private consultation lounge designed for thoughtful care conversations',
+      width: 960,
+      height: 600,
+    }}
+  />
+</BaseLayout>
+
+<style>
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .treatments-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .care-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .care-card {
+    padding: 0.25rem;
+  }
+
+  .care-card .card__body {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1.35rem;
+  }
+
+  .care-card__label {
+    margin: 0;
+    color: var(--accent-strong);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .care-card h3 {
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.25rem;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  .care-card p:last-child {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  @media (max-width: 960px) {
+    .category-grid,
+    .care-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .category-grid,
+    .care-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,86 @@
+---
+import ImageFrame from './ImageFrame.astro';
+
+interface Props {
+  name: string;
+  category: string;
+  description: string;
+  details: string[];
+  image: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+const { name, category, description, details, image, alt, width, height } = Astro.props as Props;
+---
+
+<article class="card treatment-card">
+  <ImageFrame src={image} alt={alt} width={width} height={height} loading="lazy" fallbackLabel={name} />
+  <div class="card__body treatment-card__body">
+    <p class="treatment-card__category">{category}</p>
+    <h3>{name}</h3>
+    <p>{description}</p>
+    <ul class="treatment-card__meta">
+      {details.map((detail) => (
+        <li>{detail}</li>
+      ))}
+    </ul>
+  </div>
+</article>
+
+<style>
+  .treatment-card {
+    overflow: hidden;
+    display: grid;
+    min-height: 100%;
+  }
+
+  .treatment-card__body {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .treatment-card__category {
+    margin: 0;
+    color: var(--accent-strong);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.74rem;
+    font-weight: 700;
+  }
+
+  .treatment-card h3 {
+    margin: 0;
+    font-size: 1.38rem;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+
+  .treatment-card p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .treatment-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.1rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .treatment-card__meta li {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(223, 247, 242, 0.82);
+    color: var(--accent-strong);
+    font-size: 0.84rem;
+    font-weight: 600;
+  }
+</style>

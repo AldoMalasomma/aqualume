@@ -1,0 +1,221 @@
+---
+import { images } from '../data/images';
+
+interface Props {
+  href?: string;
+  variant?: 'header' | 'footer';
+  descriptor?: string;
+  class?: string;
+}
+
+const { href = '/', variant = 'header', descriptor = 'Aesthetics & Wellness', class: className } = Astro.props as Props;
+
+const isHeader = variant === 'header';
+---
+
+<a
+  class:list={['brand-mark', `brand-mark--${variant}`, className]}
+  href={href}
+  aria-label="Aqualume home"
+  data-brand-mark="true"
+>
+  {isHeader ? (
+    <>
+      <span class="brand-mark__symbol" aria-hidden="true">
+        <img
+          src={images.brand.logo}
+          alt=""
+          width="784"
+          height="1168"
+          loading="eager"
+          decoding="async"
+          onerror="this.closest('[data-brand-mark]')?.dataset && (this.closest('[data-brand-mark]').dataset.logoMissing = 'true'); this.style.display = 'none';"
+        />
+        <span class="brand-mark__symbol-fallback" aria-hidden="true">A</span>
+      </span>
+
+      <span class="brand-mark__wordmark">Aqualume</span>
+    </>
+  ) : (
+    <>
+      <span class="brand-mark__logo">
+        <img
+          src={images.brand.logo}
+          alt="Aqualume logo"
+          width="784"
+          height="1168"
+          loading="lazy"
+          decoding="async"
+          onerror="this.closest('[data-brand-mark]')?.dataset && (this.closest('[data-brand-mark]').dataset.logoMissing = 'true'); this.style.display = 'none';"
+        />
+        <span class="brand-mark__fallback" aria-hidden="true">Aqualume</span>
+      </span>
+
+      <span class="brand-mark__descriptor">{descriptor}</span>
+    </>
+  )}
+</a>
+
+<style>
+  .brand-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-width: 0;
+    color: var(--text);
+  }
+
+  .brand-mark__symbol,
+  .brand-mark__logo {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .brand-mark__symbol {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 18px;
+    border: 1px solid color-mix(in srgb, var(--border) 82%, var(--accent-strong) 18%);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 251, 250, 0.94)),
+      var(--surface);
+    box-shadow: 0 8px 22px rgba(14, 79, 85, 0.06);
+    flex: none;
+  }
+
+  .brand-mark__symbol img,
+  .brand-mark__logo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .brand-mark__fallback {
+    position: absolute;
+    inset: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    letter-spacing: -0.04em;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .brand-mark__symbol img {
+    object-position: center 14%;
+  }
+
+  .brand-mark__symbol-fallback {
+    position: absolute;
+    inset: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-strong);
+    font-family: var(--font-display);
+    font-size: 1.08rem;
+    font-weight: 650;
+    letter-spacing: -0.06em;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .brand-mark__wordmark {
+    font-family: var(--font-display);
+    font-size: clamp(1.03rem, 0.92rem + 0.45vw, 1.22rem);
+    font-weight: 650;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .brand-mark--header {
+    gap: 0.72rem;
+  }
+
+  .brand-mark--header .brand-mark__wordmark {
+    padding-top: 0.02em;
+  }
+
+  .brand-mark--footer {
+    gap: 0.85rem;
+  }
+
+  .brand-mark--footer .brand-mark__logo {
+    width: clamp(8.75rem, 12vw, 10.75rem);
+    height: 52px;
+    flex: none;
+  }
+
+  .brand-mark--footer .brand-mark__logo img {
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  .brand-mark__descriptor {
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .brand-mark--footer .brand-mark__descriptor {
+    font-size: 0.76rem;
+  }
+
+  [data-brand-mark='true'][data-logo-missing='true'] .brand-mark__fallback {
+    opacity: 1;
+  }
+
+  [data-brand-mark='true'][data-logo-missing='true'] .brand-mark__symbol img,
+  [data-brand-mark='true'][data-logo-missing='true'] .brand-mark__logo img {
+    display: none;
+  }
+
+  [data-brand-mark='true'][data-logo-missing='true'] .brand-mark__symbol-fallback {
+    opacity: 1;
+  }
+
+  @media (max-width: 560px) {
+    .brand-mark {
+      gap: 0.65rem;
+    }
+
+    .brand-mark__symbol {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 15px;
+    }
+
+    .brand-mark__wordmark {
+      font-size: 0.98rem;
+    }
+
+    .brand-mark--footer {
+      gap: 0.7rem;
+    }
+
+    .brand-mark--footer .brand-mark__logo {
+      width: clamp(7.2rem, 28vw, 8.6rem);
+      height: 40px;
+    }
+
+    .brand-mark--footer .brand-mark__descriptor {
+      display: none;
+    }
+
+    .brand-mark__fallback {
+      font-size: 1rem;
+    }
+  }
+</style>

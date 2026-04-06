@@ -1,0 +1,386 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { locations, site } from '../data/site';
+import { images } from '../data/images';
+
+const treatmentOptions = [
+  'Select an area of interest',
+  'Injectables',
+  'Skin rejuvenation',
+  'Laser treatments',
+  'Body contouring',
+  'Medical weight loss',
+  'Hormone wellness',
+  'Not sure yet',
+];
+
+const bookingHighlights = [
+  {
+    title: 'Personalized care',
+    description: 'Every request is reviewed with your goals, comfort, and timeline in mind.',
+  },
+  {
+    title: 'Two locations',
+    description: 'Choose Missoula or Kalispell, or let the team recommend the best setting.',
+  },
+  {
+    title: 'Guided planning',
+    description: 'We help shape the right next step before treatment decisions are made.',
+  },
+];
+---
+
+<BaseLayout
+  title="Book Consultation | Aqualume"
+  description="Request a premium consultation with Aqualume for medical aesthetics and wellness care in Missoula and Kalispell."
+>
+  <section
+    class="section section--image section--panel booking-page"
+    style={`--section-image: url('${images.sectionSoftSpaDetail}')`}
+  >
+    <div class="site-shell">
+      <div class="surface booking-page__inner">
+        <div class="booking-page__copy">
+          <p class="eyebrow">Consultation request</p>
+          <h1>Book your consultation</h1>
+          <p class="booking-page__lead">
+            Share a few details and the Aqualume team will guide you toward the right location, treatment path, and
+            next step with calm, discreet support.
+          </p>
+
+          <div class="booking-highlights" aria-label="Consultation benefits">
+            {bookingHighlights.map((item) => (
+              <article class="card booking-highlight-card">
+                <div class="card__body">
+                  <p class="booking-highlight-card__label">Clinic standard</p>
+                  <h2>{item.title}</h2>
+                  <p>{item.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <p class="booking-page__support">
+            Prefer to speak first? Call
+            <a href="tel:+15550182026">{site.phone}</a>
+            or email
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+            . A team member will help you choose the right location and consultation path.
+          </p>
+        </div>
+
+        <div class="card booking-form-card">
+          <form class="booking-form" action={`mailto:${site.email}`} method="post" enctype="text/plain">
+            <div class="booking-form__header">
+              <p class="booking-form__eyebrow">Request details</p>
+              <h2>Tell us what you’re looking for</h2>
+              <p>We review every request personally and reply with a clear next step.</p>
+            </div>
+
+            <div class="booking-form__grid">
+              <label class="field field--full" for="preferred-location">
+                Preferred location
+                <select id="preferred-location" name="preferred_location" required>
+                  <option value="" selected disabled>Select a location</option>
+                  {locations.map((location) => (
+                    <option value={location.name}>{location.name}</option>
+                  ))}
+                  <option value="Not sure yet">Not sure yet</option>
+                </select>
+              </label>
+
+              <label class="field field--full" for="treatment-interest">
+                Treatment interest
+                <select id="treatment-interest" name="treatment_interest" required>
+                  {treatmentOptions.map((option, index) => (
+                    <option value={option} selected={index === 0} disabled={index === 0}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label class="field" for="full-name">
+                Full name
+                <input id="full-name" name="full_name" type="text" autocomplete="name" required />
+              </label>
+
+              <label class="field" for="email">
+                Email
+                <input id="email" name="email" type="email" autocomplete="email" required />
+              </label>
+
+              <label class="field field--full" for="phone">
+                Phone
+                <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required />
+              </label>
+
+              <label class="field field--full" for="notes">
+                Notes
+                <textarea
+                  id="notes"
+                  name="notes"
+                  rows="5"
+                  placeholder="Share goals, timing, questions, or any details that would help us prepare."
+                ></textarea>
+              </label>
+            </div>
+
+            <label class="consent">
+              <input id="consent" name="consent" type="checkbox" value="yes" required />
+              <span>I consent to Aqualume contacting me about this consultation request.</span>
+            </label>
+
+            <div class="booking-form__actions">
+              <button class="button button--primary" type="submit">Book Consultation</button>
+              <a class="button button--secondary" href="/treatments">
+                View Treatments
+              </a>
+            </div>
+
+            <p class="booking-form__note">
+              Proposal prototype only. In a live build, this form can connect to a booking workflow or CRM.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .booking-page {
+    padding-top: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .booking-page__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.96fr) minmax(320px, 1.04fr);
+    align-items: start;
+    gap: clamp(1rem, 2.8vw, 1.6rem);
+    padding: clamp(1rem, 3vw, 1.35rem);
+    border-radius: calc(var(--radius-xl) + 8px);
+  }
+
+  .booking-page__copy {
+    display: grid;
+    align-content: start;
+    gap: 1.05rem;
+    padding: clamp(1rem, 3vw, 2rem) clamp(0.2rem, 1.5vw, 0.8rem) clamp(0.4rem, 2vw, 0.9rem) 0;
+  }
+
+  .booking-page__copy h1 {
+    margin: 0;
+    max-width: 8ch;
+    font-size: clamp(3rem, 6vw, 5.7rem);
+    line-height: 0.94;
+    letter-spacing: -0.07em;
+  }
+
+  .booking-page__lead {
+    max-width: 42rem;
+    margin: 0;
+    color: var(--muted);
+    font-size: clamp(1.02rem, 1.8vw, 1.14rem);
+    line-height: 1.76;
+  }
+
+  .booking-highlights {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin-top: 0.35rem;
+  }
+
+  .booking-highlight-card {
+    min-height: 100%;
+  }
+
+  .booking-highlight-card .card__body {
+    gap: 0.7rem;
+    padding: 1.15rem 1.15rem 1.2rem;
+  }
+
+  .booking-highlight-card__label {
+    margin: 0;
+    color: var(--accent-strong);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .booking-highlight-card h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.18rem;
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+  }
+
+  .booking-highlight-card p:last-child {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .booking-page__support {
+    margin: 0.15rem 0 0;
+    color: var(--muted);
+    line-height: 1.72;
+  }
+
+  .booking-page__support a {
+    color: var(--text);
+    font-weight: 650;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
+  .booking-form-card {
+    padding: clamp(1.15rem, 3vw, 1.7rem);
+    border-radius: calc(var(--radius-xl) + 4px);
+  }
+
+  .booking-form {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .booking-form__header {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .booking-form__eyebrow {
+    margin: 0;
+    color: var(--accent-strong);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+
+  .booking-form__header h2 {
+    margin: 0;
+    font-size: clamp(1.9rem, 3vw, 2.65rem);
+    line-height: 0.98;
+    letter-spacing: -0.05em;
+  }
+
+  .booking-form__header p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .booking-form__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .field {
+    display: grid;
+    gap: 0.45rem;
+    color: var(--text);
+    font-size: 0.92rem;
+    font-weight: 650;
+  }
+
+  .field--full {
+    grid-column: 1 / -1;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    border: 1px solid rgba(20, 110, 110, 0.14);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.82);
+    color: var(--text);
+    padding: 0.9rem 1rem;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .field textarea {
+    resize: vertical;
+    min-height: 8.5rem;
+  }
+
+  .field select {
+    appearance: none;
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--accent-strong) 50%),
+      linear-gradient(135deg, var(--accent-strong) 50%, transparent 50%);
+    background-position:
+      calc(100% - 1.1rem) calc(50% - 2px),
+      calc(100% - 0.8rem) calc(50% - 2px);
+    background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
+    background-repeat: no-repeat;
+    padding-right: 2.25rem;
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: rgba(13, 100, 105, 0.34);
+    box-shadow: 0 0 0 4px rgba(105, 207, 200, 0.14);
+  }
+
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .consent input {
+    margin-top: 0.2rem;
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--accent-strong);
+    flex: none;
+  }
+
+  .booking-form__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-top: 0.25rem;
+  }
+
+  .booking-form__note {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 980px) {
+    .booking-page__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .booking-page__copy h1 {
+      max-width: 12ch;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .booking-highlights {
+      grid-template-columns: 1fr;
+    }
+
+    .booking-form__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

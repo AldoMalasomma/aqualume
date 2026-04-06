@@ -365,7 +365,7 @@ const isActive = (href: string) => {
     transform: translateY(0);
   }
 
-  body:has(.site-header__menu[open]) {
+  body.site-menu-open {
     overflow: hidden;
   }
 
@@ -423,3 +423,16 @@ const isActive = (href: string) => {
     }
   }
 </style>
+
+<script is:inline>
+  const menu = document.querySelector('.site-header__menu');
+
+  if (menu instanceof HTMLElement) {
+    const syncMenuState = () => {
+      document.body.classList.toggle('site-menu-open', menu.hasAttribute('open'));
+    };
+
+    syncMenuState();
+    menu.addEventListener('toggle', syncMenuState);
+  }
+</script>

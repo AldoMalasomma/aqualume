@@ -27,23 +27,3 @@ const { eyebrow, title, description, action, compact = false } = Astro.props as 
     </a>
   )}
 </header>
-
-<style>
-  @media (min-width: 960px) {
-    .section__header {
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: end;
-    }
-
-    .section__lead {
-      max-width: 46ch;
-    }
-
-    .section__action {
-      grid-column: 2;
-      grid-row: 1 / span 2;
-      align-self: center;
-      justify-self: end;
-    }
-  }
-</style>

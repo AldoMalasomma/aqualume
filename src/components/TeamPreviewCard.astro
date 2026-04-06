@@ -20,39 +20,3 @@ const { name, title, focus, image, alt, width, height } = Astro.props;
     <p>{focus}</p>
   </div>
 </article>
-
-<style>
-  .team-card {
-    overflow: hidden;
-    display: grid;
-    min-height: 100%;
-  }
-
-  .team-card__body {
-    display: grid;
-    gap: 0.5rem;
-  }
-
-  .team-card__media {
-    --media-position: center 18%;
-  }
-
-  .team-card h3 {
-    margin: 0;
-    font-size: 1.28rem;
-    letter-spacing: -0.03em;
-  }
-
-  .team-card__title {
-    margin: 0;
-    color: var(--accent-strong);
-    font-size: 0.92rem;
-    font-weight: 700;
-  }
-
-  .team-card p:last-child {
-    margin: 0;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-</style>

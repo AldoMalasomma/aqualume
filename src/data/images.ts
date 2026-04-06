@@ -5,6 +5,7 @@ export const images = {
   heroClinicInterior: '/images/hero-clinic-interior.jpg',
   consultationSetting: '/images/consultation-setting.jpg',
   sectionSoftSpaDetail: '/images/section-soft-spa-detail.jpg',
+  sectionSoftSpaDetailWebp: '/images/section-soft-spa-detail-1080.webp',
   ctaConsultationLounge: '/images/cta-consultation-lounge.jpg',
   treatments: {
     wrinkleRelaxers: '/images/treatment-wrinkle-relaxers.jpg',

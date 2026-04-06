@@ -26,6 +26,16 @@ import {
   title="Aqualume | 2026 homepage proposal"
   description="A premium visual proposal for a modern medical aesthetics and wellness clinic."
 >
+  <Fragment slot="head">
+    <link
+      rel="preload"
+      as="image"
+      href={images.heroClinicInteriorWebp720}
+      imagesrcset={`${images.heroClinicInteriorWebp480} 480w, ${images.heroClinicInteriorWebp720} 720w, ${images.heroClinicInteriorWebp1080} 1080w`}
+      imagesizes="(max-width: 720px) calc(100vw - 2rem), (max-width: 1100px) 44vw, 540px"
+    />
+  </Fragment>
+
   <Hero
     eyebrow="Premium clinic proposal"
     title="Medical aesthetics and wellness, presented with calm precision."
